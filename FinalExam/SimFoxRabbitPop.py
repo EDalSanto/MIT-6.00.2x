@@ -1,5 +1,6 @@
 import random
-import pylab
+import numpy as np
+import matplotlib.pyplot as plt
 
 # Global Variables
 MAXRABBITPOP = 1000
@@ -81,6 +82,33 @@ def runSimulation(numSteps):
         fox_populations.append(CURRENTFOXPOP)
     return (rabbit_populations, fox_populations)
 
-# y1, y2 = runSimulation(200)
-# pylab.plot(range(200), y1, 'b-', range(200), y2, 'g-')
-# pylab.show()
+#plot - make function
+x = range(200)
+y = runSimulation(200)
+labels = ["Rabit Population", "Fox Population"]
+for y_arr, label in zip(y, labels):
+    plt.plot(x, y_arr, label=label)
+plt.xlabel("Time Step")
+plt.ylabel("Population")
+plt.legend()
+plt.show()
+
+
+RP = y[0] #rabit population
+FP = y[1] #fox population
+
+#Fit polynomial lines of deg 2 Rabits
+coeffRabbit = np.polyfit(range(len(RP)), RP, 2)
+plt.plot(np.polyval(coeffRabbit, range(len(RP))))
+plt.xlabel("Time Step")
+plt.ylabel("Rabit Population")
+plt.show()
+
+#Fit polynomial lines of deg 2 Foxes
+coeffFox = np.polyfit(range(len(FP)), FP, 2)
+plt.plot(np.polyval(coeffFox, range(len(FP))))
+plt.xlabel("Time Step")
+plt.ylabel("Population")
+plt.show()
+
+#Make function for bestfitlines
